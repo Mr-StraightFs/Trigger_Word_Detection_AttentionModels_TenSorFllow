@@ -7,6 +7,13 @@ import os
 import glob
 import IPython
 
+from tensorflow.keras.callbacks import ModelCheckpoint
+from tensorflow.keras.models import Model, load_model, Sequential
+from tensorflow.keras.layers import Dense, Activation, Dropout, Input, Masking, TimeDistributed, LSTM, Conv1D
+from tensorflow.keras.layers import GRU, Bidirectional, BatchNormalization, Reshape
+from tensorflow.keras.optimizers import Adam
+
+
 # Listening to Some Data (Ausio Snippets)
 IPython.display.Audio("./raw_data/activates/1.wav")
 IPython.display.Audio("./raw_data/negatives/4.wav")
