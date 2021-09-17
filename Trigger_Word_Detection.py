@@ -220,6 +220,11 @@ def create_training_example(background, activates, negatives, Ty):
 
     return x, y
 
+# Prepare Training Data
+np.random.seed(18)
+x, y = create_training_example(backgrounds[0], activates, negatives, Ty)
+IPython.display.Audio("train.wav")
+
 
 
 
