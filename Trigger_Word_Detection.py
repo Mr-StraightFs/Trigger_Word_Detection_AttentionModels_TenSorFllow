@@ -164,6 +164,61 @@ def insert_ones(y, segment_end_ms):
 
     return y
 
+arr1 = insert_ones(np.zeros((1, Ty)), 9700)
+plt.plot(insert_ones(arr1, 4251)[0,:])
+print("sanity checks:", arr1[0][1333], arr1[0][634], arr1[0][635])
+
+
+def create_training_example(background, activates, negatives, Ty):
+    """
+    Creates a training example with a given background, activates, and negatives.
+    Arguments:
+    background -- a 10 second background audio recording
+    activates -- a list of audio segments of the word "activate"
+    negatives -- a list of audio segments of random words that are not "activate"
+    Ty -- The number of time steps in the output
+
+    Returns:
+    x -- the spectrogram of the training example
+    y -- the label at each time step of the spectrogram
+    """
+    # Make background quieter
+    background = background - 20
+
+    # Step 1: Initialize y (label vector) of zeros
+    y = np.zeros((1, Ty))
+
+    # Step 2: Initialize segment times as empty list
+    previous_segments = []
+    # Select 0-4 random "activate" audio clips from the entire list of "activates" recordings
+    number_of_activates = np.random.randint(0, 5)
+    random_indices = np.random.randint(len(activates), size=number_of_activates)
+    random_activates = [activates[i] for i in random_indices]
+    # Step 3: Loop over randomly selected "activate" clips and insert in background
+    for random_activate in random_activates:  # @KEEP
+        # Insert the audio clip on the background
+        background, segment_time = insert_audio_clip(background, random_activate, previous_segments)
+        # Retrieve segment_start and segment_end from segment_time
+        segment_start, segment_end = segment_time
+        # Insert labels in "y" at segment_end
+        y = insert_ones(y, segment_end_ms=segment_end)
+    # Select 0-2 random negatives audio recordings from the entire list of "negatives" recordings
+    number_of_negatives = np.random.randint(0, 3)
+    random_indices = np.random.randint(len(negatives), size=number_of_negatives)
+    random_negatives = [negatives[i] for i in random_indices]
+
+    # Step 4: Loop over randomly selected negative clips and insert in background
+    for random_negative in random_negatives:  # @KEEP
+        # Insert the audio clip on the background
+        background, _ = insert_audio_clip(background, random_negative, previous_segments)
+    # Standardize the volume of the audio clip
+    background = match_target_amplitude(background, -20.0)
+    # Export new training example
+    file_handle = background.export("train" + ".wav", format="wav")
+    # Get and plot spectrogram of the new recording (background with superposition of positive and negatives)
+    x = graph_spectrogram("train.wav")
+
+    return x, y
 
 
 
