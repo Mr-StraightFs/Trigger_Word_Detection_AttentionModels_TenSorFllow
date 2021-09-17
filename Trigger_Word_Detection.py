@@ -319,4 +319,7 @@ model.layers[10].trainable = False
 opt = Adam(lr=1e-6, beta_1=0.9, beta_2=0.999)
 model.compile(loss='binary_crossentropy', optimizer=opt, metrics=["accuracy"])
 
+# Fit teh Model on Data
+model.fit(X, Y, batch_size = 16, epochs=1)
+
 
