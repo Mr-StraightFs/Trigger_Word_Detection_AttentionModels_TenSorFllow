@@ -325,3 +325,25 @@ model.fit(X, Y, batch_size = 16, epochs=1)
 # Test the Model
 loss, acc, = model.evaluate(X_dev, Y_dev)
 print("Dev set accuracy = ", acc)
+
+# Define a New Function : Detect Trigger Words
+def detect_triggerword(filename):
+    plt.subplot(2, 1, 1)
+
+    # Correct the amplitude of the input file before prediction
+    audio_clip = AudioSegment.from_wav(filename)
+    audio_clip = match_target_amplitude(audio_clip, -20.0)
+    file_handle = audio_clip.export("tmp.wav", format="wav")
+    filename = "tmp.wav"
+
+    x = graph_spectrogram(filename)
+    # the spectrogram outputs (freqs, Tx) and we want (Tx, freqs) to input into the model
+    x = x.swapaxes(0, 1)
+    x = np.expand_dims(x, axis=0)
+    predictions = model.predict(x)
+
+    plt.subplot(2, 1, 2)
+    plt.plot(predictions[0, :, 0])
+    plt.ylabel('probability')
+    plt.show()
+    return predictions
