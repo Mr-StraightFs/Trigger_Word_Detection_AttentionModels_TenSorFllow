@@ -373,3 +373,9 @@ def chime_on_activate(filename, predictions, threshold):
             consecutive_timesteps = 0
 
     audio_clip.export("chime_output.wav", format='wav')
+
+ # run the model on these audio clips and see if it adds a chime after "activate"!
+filename = "./raw_data/dev/1.wav"
+prediction = detect_triggerword(filename)
+chime_on_activate(filename, prediction, 0.5)
+IPython.display.Audio("./chime_output.wav")
