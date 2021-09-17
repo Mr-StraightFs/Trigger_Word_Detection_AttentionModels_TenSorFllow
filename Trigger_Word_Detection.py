@@ -297,4 +297,7 @@ def modelf(input_shape):
 
     return model
 
+model = modelf(input_shape = (Tx, n_freq))
+
+model.summary()
 
