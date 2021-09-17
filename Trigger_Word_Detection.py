@@ -314,3 +314,9 @@ model.load_weights('./models/model.h5')
 model.layers[2].trainable = False
 model.layers[7].trainable = False
 model.layers[10].trainable = False
+
+# Compile the Model
+opt = Adam(lr=1e-6, beta_1=0.9, beta_2=0.999)
+model.compile(loss='binary_crossentropy', optimizer=opt, metrics=["accuracy"])
+
+
