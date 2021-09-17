@@ -225,6 +225,19 @@ np.random.seed(18)
 x, y = create_training_example(backgrounds[0], activates, negatives, Ty)
 IPython.display.Audio("train.wav")
 
+nsamples = 32
+X = []
+Y = []
+for i in range(0, nsamples):
+    if i%10 == 0:
+        print(i)
+    x, y = create_training_example(backgrounds[i % 2], activates, negatives, Ty)
+    X.append(x.swapaxes(0,1))
+    Y.append(y.swapaxes(0,1))
+X = np.array(X)
+Y = np.array(Y)
+
+
 
 
 
