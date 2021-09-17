@@ -309,3 +309,8 @@ loaded_model_json = json_file.read()
 json_file.close()
 model = model_from_json(loaded_model_json)
 model.load_weights('./models/model.h5')
+
+# Block Training for BatchNormalization Layers
+model.layers[2].trainable = False
+model.layers[7].trainable = False
+model.layers[10].trainable = False
