@@ -301,3 +301,11 @@ model = modelf(input_shape = (Tx, n_freq))
 
 model.summary()
 
+# Fit The Model
+from tensorflow.keras.models import model_from_json
+
+json_file = open('./models/model.json', 'r')
+loaded_model_json = json_file.read()
+json_file.close()
+model = model_from_json(loaded_model_json)
+model.load_weights('./models/model.h5')
