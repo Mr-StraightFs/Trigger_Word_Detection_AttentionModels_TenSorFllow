@@ -237,7 +237,9 @@ for i in range(0, nsamples):
 X = np.array(X)
 Y = np.array(Y)
 
-
+# Dev Set
+X_dev = np.load("./XY_dev/X_dev.npy")
+Y_dev = np.load("./XY_dev/Y_dev.npy")
 
 
 
